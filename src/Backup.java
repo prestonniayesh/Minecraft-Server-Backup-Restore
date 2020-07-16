@@ -1,6 +1,4 @@
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.filefilter.FileFilterUtils;
-import org.apache.commons.io.filefilter.IOFileFilter;
 
 import java.io.*;
 import java.text.SimpleDateFormat;
@@ -11,9 +9,12 @@ public class Backup {
 
     private String msg;
 
+    private String timeStamp;
+
     public Backup(String message) {
-        path = "/Users/prestonniayesh/Desktop/minecraft/backup";
+        path = "/Users/prestonniayesh/Desktop/backup";
         msg = message;
+        timeStamp = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new java.util.Date());
     }
 
     public void prepare() throws IOException {
@@ -30,8 +31,7 @@ public class Backup {
         info.createNewFile();
         FileWriter fW = new FileWriter(path + "/info.txt");
         PrintWriter pW = new PrintWriter(fW);
-        String timeStamp = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new java.util.Date());
-        msg = timeStamp + "\n" + msg;
+        msg = "Time: " + timeStamp + "\nMessage: " + msg;
         pW.printf("%s" + "%n", msg);
         pW.close();
     }
@@ -41,11 +41,8 @@ public class Backup {
         addInfo();
         File src = new File("/Users/prestonniayesh/Desktop/minecraft");
         File dest = new File(path);
-        IOFileFilter txtSuffixFilter = FileFilterUtils.suffixFileFilter(".jar");
-        FileFilter filter = FileFilterUtils.notFileFilter(txtSuffixFilter);
-        FileUtils.copyDirectory(src, dest, filter);
-        File extra = new File(path + "/backup");
-        FileUtils.deleteDirectory(extra);
+        FileUtils.copyDirectory(src, dest);
+        System.out.println("Backup complete.\n" + msg);
     }
 
 }

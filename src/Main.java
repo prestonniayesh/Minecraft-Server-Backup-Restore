@@ -10,6 +10,8 @@ public class Main {
                 Backup backup = new Backup(args[1]);
                 backup.create();
             }
+        } else if (args[0].equals("restore")) {
+            Restore.restore();
         }
     }
 }
