@@ -5,14 +5,17 @@ import java.text.SimpleDateFormat;
 
 public class Backup {
 
+    private String username;
+
     private String path;
 
     private String msg;
 
     private String timeStamp;
 
-    public Backup(String message) {
-        path = "/Users/prestonniayesh/Desktop/backup";
+    public Backup(String user, String message) {
+        username = user;
+        path = "/Users/" + username + "/Desktop/backup";
         msg = message;
         timeStamp = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new java.util.Date());
     }
@@ -39,7 +42,7 @@ public class Backup {
     public void create() throws IOException {
         prepare();
         addInfo();
-        File src = new File("/Users/prestonniayesh/Desktop/minecraft");
+        File src = new File("/Users/" + username + "/Desktop/minecraft");
         File dest = new File(path);
         FileUtils.copyDirectory(src, dest);
         System.out.println("Backup complete.\n" + msg);
